@@ -1,0 +1,16 @@
+{
+  "Quantum_Computing": {
+    "input_path": "./Quantum_Computing/selected",
+    "output_path": "./Quantum_Computing/newsletter",
+    "header": "📰 Quantum Computing Weekly Papers | [Week Info]\nTop Research Highlights ({start_date_formatted} – {end_date_formatted})\n\nExplore this week’s most impactful and thought-provoking papers in quantum computing. From algorithmic innovations to hardware breakthroughs, these curated selections showcase where the field is heading next.",
+    "introduction": "Step Into the Quantum Frontier — [Count] Curated Papers Shaping the Next Wave of Quantum Computing.\n\nThis weekly digest highlights the most impactful quantum research carefully selected to help you stay informed and future-ready.\n\n[Research Paper List]\n#QuantumComputing #QuantumResearch #Innovation #DeepTech #WeeklyDigest",
+    "tail": "Thank you for reading this week’s Quantum Computing Highlights!\nI hope these papers added valuable perspective to your quantum research journey. Stay tuned for next week’s digest featuring more cutting-edge findings and emerging discussions in quantum technology.\n\nYour feedback and suggestions are always welcome.\n\nBest regards,\nHyunho"
+  },
+  "LLM": {
+    "input_path": "./LLM/selected",
+    "output_path": "./LLM/newsletter",
+    "header": "📰 LLM Research Weekly Papers | [Week Info]\nTop Papers in Large Language Models ({start_date_formatted} - {end_date_formatted})\n\nDive into the most notable research papers shaping the evolution of Large Language Models. This week’s selection highlights advances in model efficiency, reasoning, and alignment—curated to keep you informed and inspired.",
+    "introduction": "Start Your Week Informed — Explore [Count] Key Papers Driving the Future of LLMs and Generative AI!\n\nEach week, we hand-select a concise set of research papers that capture the latest progress in large language models and generative AI — from model efficiency and alignment to real-world applications.\nStay ahead with insights that matter.\n\n[Research Paper List]\n#LLMResearch #GenAI #AIInnovation #ResearchDigest #WeeklyUpdate",
+    "tail": "That’s all for this week’s edition of LLM Research Weekly!\nI hope you found these insights meaningful and relevant to your work or curiosity in the field. Join me again next week for a new roundup of the latest developments in LLM and generative AI research.\n\nYour thoughts and feedback are always appreciated.\n\nBest regards,\nHyunho"
+  }
+}

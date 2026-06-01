@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+.vscode/
+.DS_Store
+*.log
+
+/99. Image
+/100. Guide
+
+/LLM
+/Quantum_Computing
