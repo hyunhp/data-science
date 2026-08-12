@@ -42,6 +42,44 @@ def format_date(date_str):
     return date_obj.strftime('%d %B')
 
 
+# Pick papers that cover as many different topics as possible, so the LinkedIn
+# post does not end up being five papers about the same thing. Falls back to a
+# plain random sample for selected files written before the topic column existed.
+def pick_diverse(df, num_papers, seed=42):
+    if 'topics' not in df.columns:
+        return df.sample(n=num_papers, random_state=seed, replace=False).reset_index(drop=True)
+
+    shuffled = df.sample(frac=1, random_state=seed).reset_index(drop=True)
+    topic_sets = [set(str(t).split(',')) for t in shuffled['topics']]
+
+    # A topic every paper shares ('core' on the LLM query) tells us nothing
+    # about how they differ, and would block every pick after the first
+    universal = set.intersection(*topic_sets) if topic_sets else set()
+    topic_sets = [topics - universal for topics in topic_sets]
+
+    picked, used_topics = [], set()
+
+    while len(picked) < num_papers:
+        progressed = False
+        for i in range(len(shuffled)):
+            if len(picked) >= num_papers:
+                break
+            if i in picked:
+                continue
+            topics = topic_sets[i]
+            if topics & used_topics:
+                continue
+            picked.append(i)
+            used_topics |= topics
+            progressed = True
+        # Every remaining paper overlaps what we already took, start a fresh round
+        if not progressed:
+            if not used_topics:
+                break
+            used_topics = set()
+
+    return shuffled.loc[picked].reset_index(drop=True)
+
 def set_information(query, input_file):
     if query == 'Quantum Computing':
         start_date_formatted, end_date_formatted = convert_date(input_file)
@@ -81,7 +119,16 @@ def main():
     num_papers = args.num_papers
 
     df = pd.read_csv(input_path + '/' + args.input_file, encoding='utf-8-sig')
-    df = df.sample(n=num_papers, random_state=42, replace=False).reset_index(drop=True)
+
+    if len(df) == 0:
+        raise ValueError(f'{args.input_file} has no paper to write about....')
+
+    # Never ask for more papers than the selected file actually holds
+    if len(df) < num_papers:
+        print(f'Only {len(df)} papers available, requested {num_papers}. Using {len(df)}....')
+        num_papers = len(df)
+
+    df = pick_diverse(df, num_papers)
 
     count, research_papers, text = 1, '', header
     text = text.replace('[Week Info]', f'{week_of_month} Week of {upload_date.strftime("%B %Y")}')
