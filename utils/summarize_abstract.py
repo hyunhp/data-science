@@ -164,9 +164,13 @@ def call_claude(prompt):
 
     if result.returncode != 0:
         stderr = (result.stderr or '').strip()
-        if any(h in stderr.lower() for h in _UNAVAILABLE_HINTS):
-            raise LLMUnavailable(f'claude -p unavailable: {stderr}')
-        raise RuntimeError(f'claude -p failed ({result.returncode}): {stderr}')
+        stdout = (result.stdout or '').strip()
+        # Some fatal errors (e.g. an expired OAuth session) are printed to
+        # stdout instead of stderr, so check and surface both.
+        detail = '\n'.join(part for part in (stderr, stdout) if part) or '(no output)'
+        if any(h in detail.lower() for h in _UNAVAILABLE_HINTS):
+            raise LLMUnavailable(f'claude -p unavailable: {detail}')
+        raise RuntimeError(f'claude -p failed ({result.returncode}): {detail}')
     return result.stdout
 
 
