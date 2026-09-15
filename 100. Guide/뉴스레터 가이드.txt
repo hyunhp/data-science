@@ -2,6 +2,7 @@
 ** --help 또는 .py file guide 확인
 
 1. commands.py 실행 (--query --date-from --date-to)
+(quantum computing, LLM)
 2. gpt로 llm column 추가 (현재는 웹사이트에 column 실행하는 방식)
 3-1. 매일: daily_newsletter.py 실행 (--query --input-file)
 3-2. 주일: weekly_newsletter.py 실행 (--query --input-file --planned-date)
